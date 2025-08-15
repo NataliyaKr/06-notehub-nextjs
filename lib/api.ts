@@ -17,10 +17,11 @@ export const fetchNotes = async (page: number, search: string) => {
   return res.data;
 };
 
-/* export default fetchNotesById = async (noteId: string) => {
-  const res = await api.get<Note>(`/notes/${noteId}`);
+ export const fetchNoteById = async (id: string) => {
+  const res = await api.get<Note>(`/notes/${id}`);
   return res.data;
-}; */
+};
+
 
 export const createNote = async (newNote: NewNote) => {
   const res = await api.post<Note>('/notes', newNote);

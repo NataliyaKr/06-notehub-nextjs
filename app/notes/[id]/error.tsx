@@ -1,9 +1,10 @@
 'use client';
 
-interface ErrorId {
+type ErrorProps = {
   error: Error;
-}
+  reset: () => void;
+};
 
-export default function NoteIdError({ error }: ErrorId) {
+export default function Error({ error }: ErrorProps) {
   return <p>Could not fetch note details. {error.message}</p>;
 }
