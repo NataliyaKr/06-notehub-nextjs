@@ -3,15 +3,21 @@
 import { useState } from 'react';
 import css from './NotesPage.module.css';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { fetchNotes } from '@/lib/api';
+import { fetchNotes, type FetchNotesResponse } from '@/lib/api';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
 import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import NoteList from '@/components/NoteList/NoteList';
 import { useDebouncedCallback } from 'use-debounce';
+import type { Note } from '@/types/note';
 
-function NotesClient() {
+interface NotesClientProps {
+  initialData: Note[];
+  initialTotalPages: number;
+}
+
+function NotesClient({ initialData, initialTotalPages }: NotesClientProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -30,10 +36,14 @@ function NotesClient() {
     updateSearchQuery(value);
   };
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useQuery<FetchNotesResponse>({
     queryKey: ['notes', currentPage, searchQuery],
     queryFn: () => fetchNotes(currentPage, searchQuery),
     placeholderData: keepPreviousData,
+    initialData:
+      currentPage === 1 && searchQuery === ''
+        ? { notes: initialData, totalPages: initialTotalPages }
+        : undefined,
   });
   const totalPages = data?.totalPages ?? 0;
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { NewNote, Note } from '../types/note';
 
-interface FetchNotesResponse {
+export interface FetchNotesResponse {
   notes: Note[];
   totalPages: number;
 }
@@ -33,6 +33,6 @@ export const createNote = async (newNote: NewNote) => {
 };
 
 export const deleteNote = async (noteId: string) => {
-  const res = await axios.delete<Note>(`/notes/${noteId}`);
+  const res = await api.delete<Note>(`/notes/${noteId}`);
   return res.data;
 };
