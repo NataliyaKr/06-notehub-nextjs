@@ -1,5 +1,10 @@
 import axios from 'axios';
-import type { FetchNotesResponse, NewNote, Note } from '../types/note';
+import type { NewNote, Note } from '../types/note';
+
+interface FetchNotesResponse {
+  notes: Note[];
+  totalPages: number;
+}
 
 const API_Key = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
@@ -17,11 +22,10 @@ export const fetchNotes = async (page: number, search: string) => {
   return res.data;
 };
 
- export const fetchNoteById = async (id: string) => {
+export const fetchNoteById = async (id: string) => {
   const res = await api.get<Note>(`/notes/${id}`);
   return res.data;
 };
-
 
 export const createNote = async (newNote: NewNote) => {
   const res = await api.post<Note>('/notes', newNote);
