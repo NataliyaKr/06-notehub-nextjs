@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useId } from 'react';
 import * as Yup from 'yup';
-import { createNote, type NewNote } from '../../lib/api';
+import { createNote } from '../../lib/api';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './NoteForm.module.css';
+import { NewNote } from '@/types/note';
 
 interface FormValues {
   title: string;
